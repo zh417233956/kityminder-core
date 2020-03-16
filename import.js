@@ -1,5 +1,3 @@
-
-
 /**
  * 开发版本的文件导入
  */
@@ -23,7 +21,7 @@
         'src/core/readonly.js',
         'src/core/layout.js',
         'src/core/theme.js',
-        
+
         'src/core/compatibility.js',
         'src/core/render.js',
         'src/core/connect.js',
@@ -85,14 +83,18 @@
         'src/module/hyperlink.js',
         'src/module/arrange.js',
         'src/module/clipboard.js',
-        'src/module/style.js'
+        'src/module/style.js',
+
+        /* 扩展 */
+        'src/module/flag.js',
+        'src/module/relLine.js',
+        'src/connect/leader-line.min.js',
+        'src/connect/plain-draggable.min.js'
     ];
 
     if (typeof(module) === 'object' && module.exports) {
         module.exports = pathInfo;
-    } 
-
-    else if (document) {
+    } else if (document) {
         while (pathInfo.length) {
             var path = pathInfo.shift();
             window.document.write('<script type="text/javascript" src="' + path + '"></script>');

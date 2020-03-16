@@ -38,6 +38,8 @@
   "dependencies": {
     "json-diff": "^0.5.2",
     "kity": "^2.0.4",
+    "leader-line": "^1.0.5",
+    "plain-draggable": "^2.5.12",
     "seajs": "^2.3.0"
   },
   "devDependencies": {

@@ -36,6 +36,11 @@ define(function(require, exports, module) {
                 };
                 paper.setViewPort(viewport);
                 if (value == 100) fixPaperCTM(paper);
+                //放缩触发点
+                // console.log("zhhlog:zoom:zoom");
+                if (typeof(this._relLine_render) === "function") {
+                    this._relLine_render();
+                }
             },
             getZoomValue: function() {
                 return this._zoomValue;
@@ -181,7 +186,7 @@ define(function(require, exports, module) {
                             me.execCommand('zoomout');
                         }
                     }, 100);
-                    
+
                     e.originEvent.preventDefault();
                 }
             },

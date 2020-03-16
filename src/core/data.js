@@ -93,7 +93,7 @@ define(function(require, exports, module) {
          *      1231412
          *      13123    
          */
-        Text2Children: function (node, text) {
+        Text2Children: function(node, text) {
             if (!(node instanceof kityminder.Node)) {
                 return;
                 // throw new Error('Json2Children::node is not a kityminder.Node type!');
@@ -106,7 +106,8 @@ define(function(require, exports, module) {
                 TAB_REGEXP = /^(\t|\x20{4})/;
 
             var lines = text.split(LINE_SPLITTER),
-                line = '', jsonNode, i = 0;
+                line = '',
+                jsonNode, i = 0;
             var minder = this;
 
             function isEmpty(line) {
@@ -152,12 +153,12 @@ define(function(require, exports, module) {
                 if (level === 0) {
                     jsonMap = {};
                     children.push(jsonNode);
-                    jsonMap[0] = children[children.length-1];
+                    jsonMap[0] = children[children.length - 1];
                 } else {
-                    if (!jsonMap[level-1]) {
+                    if (!jsonMap[level - 1]) {
                         throw new Error('Invalid local format');
                     };
-                    addChild(jsonMap[level-1], jsonNode);
+                    addChild(jsonMap[level - 1], jsonNode);
                     jsonMap[level] = jsonNode;
                 }
             }
@@ -173,7 +174,7 @@ define(function(require, exports, module) {
          * @Editor: Naixor
          * @Date: 2015.9.22
          */
-        exportNode: function (node) {
+        exportNode: function(node) {
             var exported = {};
             exported.data = node.getData();
             var childNodes = node.getChildren();
@@ -235,6 +236,10 @@ define(function(require, exports, module) {
 
             this.setTemplate(json.template || 'default');
             this.setTheme(json.theme || null);
+            //TODO:zhhlog 实现relLine
+            if (json.relLine) {
+                this._relLine = json.relLine
+            }
             this.refresh();
 
             /**

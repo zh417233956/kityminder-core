@@ -60,12 +60,15 @@ define(function(require, exports, module) {
                 this._moveTimeline.on('finish', function() {
                     dragger._moveTimeline = null;
                 });
-
                 return this;
             }
 
             this._minder.getRenderContainer().setTranslate(position.round());
             this._minder.fire('viewchange');
+            // console.log("zhhlog:view:moveTo");
+            if (typeof(this._minder._relLine_render) === "function") {
+                this._minder._relLine_render();
+            }
         },
 
         getMovement: function() {
@@ -340,10 +343,10 @@ define(function(require, exports, module) {
                     var minder = this;
 
                     /*
-                    * Added by zhangbobell 2015.9.9
-                    * windows 10 的 edge 浏览器在全部动画停止后，优先级图标不显示 text，
-                    * 因此再次触发一次 render 事件，让浏览器重绘
-                    * */
+                     * Added by zhangbobell 2015.9.9
+                     * windows 10 的 edge 浏览器在全部动画停止后，优先级图标不显示 text，
+                     * 因此再次触发一次 render 事件，让浏览器重绘
+                     * */
                     if (kity.Browser.edge) {
                         this.fire('paperrender');
                     }
@@ -353,13 +356,13 @@ define(function(require, exports, module) {
                     var timeline = dragger.timeline();
 
                     /*
-                    * Added by zhangbobell 2015.09.25
-                    * 如果之前有动画，那么就先暂时返回，等之前动画结束之后再次执行本函数
-                    * 以防止 view 动画变动了位置，导致本函数执行的时候位置计算不对
-                    *
-                    * fixed bug : 初始化的时候中心节点位置不固定（有的时候在左上角，有的时候在中心）
-                    * */
-                    if (timeline){
+                     * Added by zhangbobell 2015.09.25
+                     * 如果之前有动画，那么就先暂时返回，等之前动画结束之后再次执行本函数
+                     * 以防止 view 动画变动了位置，导致本函数执行的时候位置计算不对
+                     *
+                     * fixed bug : 初始化的时候中心节点位置不固定（有的时候在左上角，有的时候在中心）
+                     * */
+                    if (timeline) {
                         timeline.on('finish', function() {
                             minder.fire('selectionchange');
                         });
@@ -371,12 +374,12 @@ define(function(require, exports, module) {
                     var view = dragger.getView();
                     var focus = selected.getLayoutBox();
                     var space = 50;
-                    var dx = 0, dy = 0;
+                    var dx = 0,
+                        dy = 0;
 
                     if (focus.right > view.right) {
                         dx += view.right - focus.right - space;
-                    }
-                    else if (focus.left < view.left) {
+                    } else if (focus.left < view.left) {
                         dx += view.left - focus.left + space;
                     }
 

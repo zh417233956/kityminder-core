@@ -102,5 +102,10 @@ define(function(require, exports, module) {
     require('./template/fish-bone');
     require('./template/tianpan');
 
+    require('./module/flag');
+    require('./module/relLine');
+    require('./connect/leader-line.min.js')
+    require('./connect/plain-draggable.min.js')
+
     module.exports = kityminder;
 });

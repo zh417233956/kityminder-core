@@ -226,6 +226,11 @@ define(function(require, exports, module) {
         render: function() {
             if (!this.attached) return;
             this.getMinder().renderNode(this);
+
+            if (window.km && typeof(window.km._relLine_render) === "function") {
+                // console.log("zhhlog:render:render");
+                window.km._relLine_render();
+            }
             return this;
         },
         renderTree: function() {
@@ -235,6 +240,11 @@ define(function(require, exports, module) {
                 list.push(node);
             });
             this.getMinder().renderNodeBatch(list);
+
+            if (window.km && typeof(window.km._relLine_render) === "function") {
+                // console.log("zhhlog:render:renderTree");
+                window.km._relLine_render(0, true);
+            }
             return this;
         },
         getRenderer: function(type) {

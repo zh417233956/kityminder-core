@@ -18,6 +18,8 @@ define(function(require, exports, module) {
                 callback(null);
             };
             img.src = url;
+            img.classList.add("km-image")
+                // img.className = "km-image"
         }
 
         function fitImageSize(width, height, maxWidth, maxHeight) {

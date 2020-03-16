@@ -109,6 +109,11 @@ define(function(require, exports, module) {
             nodes.forEach(function(node) {
                 node.getLayoutTransform().translate(dx, dy);
             });
+            // console.log("zhhlog:layout:move");
+            //移动以后布局可能变化，执行所有等待帧需要延迟300才能完成渲染节点
+            if (typeof(km._relLine_render) === "function") {
+                km._relLine_render(300);
+            }
         },
 
         /**
@@ -427,7 +432,7 @@ define(function(require, exports, module) {
                  * 被提前录入, 因此增加setTimeout
                  * @author Naixor
                  */
-                setTimeout(function () {
+                setTimeout(function() {
                     minder.fire('layoutallfinish');
                 }, 0);
             });
@@ -515,6 +520,11 @@ define(function(require, exports, module) {
                 }
             }
             apply(root, root.parent ? root.parent.getGlobalLayoutTransform() : new kity.Matrix());
+            //节点变换/移动更新点
+            // console.log("zhhlog:layout:applyLayoutResult");
+            if (typeof(this._relLine_render) === "function") {
+                this._relLine_render();
+            }
             return this;
         }
     });
