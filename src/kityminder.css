@@ -2,7 +2,7 @@
     font-family: "STHeitiSC-Light", "STHeiti", "Hei", "Heiti SC", "Microsoft Yahei", Arial, sans-serif;
     -webkit-user-select: none;
     user-select: none;
-    position:  relative;
+    position: relative;
 }
 
 .km-view .km-receiver {
@@ -15,8 +15,17 @@
     margin: 0;
 }
 
-.km-view image {
+
+/* .km-view image {
     cursor: zoom-in;
+} */
+
+.km-view .km-image {
+    cursor: zoom-in;
+}
+
+.leader-line {
+    pointer-events: auto!important;
 }
 
 .km-image-viewer {

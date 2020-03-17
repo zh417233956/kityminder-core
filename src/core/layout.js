@@ -111,7 +111,7 @@ define(function(require, exports, module) {
             });
             // console.log("zhhlog:layout:move");
             //移动以后布局可能变化，执行所有等待帧需要延迟300才能完成渲染节点
-            if (typeof(km._relLine_render) === "function") {
+            if (typeof(km) !== "undefined" && typeof(km._relLine_render) === "function") {
                 km._relLine_render(300);
             }
         },

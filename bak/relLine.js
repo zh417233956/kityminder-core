@@ -15,8 +15,7 @@ define(function(require, exports, module) {
         //关系线参数设置
         // var relLineOption = { color: '#009143', size: 1.5, dash: true, endPlugSize: 2, startSocket: "right", Socket: "left" };
         var relLineOption = { color: '#009143', size: 1.5, dash: false, endPlugSize: 2, startSocket: "right", Socket: "left" };
-        var startDraggable, endDraggable, p_r = 10;
-
+        var startDraggable, endDraggable;
 
         function createRelLine(startNode, endNode) {
             var startElementId = startNode.rc.getId();
@@ -35,7 +34,7 @@ define(function(require, exports, module) {
 
         function createCircleFun(line) {
             removeCircleFun();
-
+            var line_box_length = 11;
             var lineData = km._relLine[km._relLine_obj.indexOf(line)];
             // var svg = km.getRenderContainer().container.node;
             var svg = km.getPaper().getNode();
@@ -44,14 +43,11 @@ define(function(require, exports, module) {
                 p2,
                 p3 = km.getNodeById(lineData.endId).rc.node;
 
-            var line_box_length_x = svg.getBoundingClientRect().x;
-            var line_box_length_y = svg.getBoundingClientRect().y;
-
             p1 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             if (p1) {
-                p1.setAttribute("cx", p0.getBoundingClientRect().x + (p0.getBBox().width / 2 - line_box_length_x));
-                p1.setAttribute("cy", p0.getBoundingClientRect().y - line_box_length_y);
-                p1.setAttribute("r", p_r);
+                p1.setAttribute("cx", p0.getBoundingClientRect().x + (p0.getBBox().width / 2 - line_box_length));
+                p1.setAttribute("cy", p0.getBoundingClientRect().y - line_box_length);
+                p1.setAttribute("r", 10);
                 p1.setAttribute("class", "rel-line-point-start");
                 p1.setAttribute("style", "-webkit-tap-highlight-color: transparent; box-shadow: transparent 0px 0px 1px; cursor: grab; user-select: none;fill: #009143;"); //indianred
                 svg.appendChild(p1);
@@ -59,9 +55,9 @@ define(function(require, exports, module) {
 
             p2 = document.createElementNS("http://www.w3.org/2000/svg", "circle");
             if (p2) {
-                p2.setAttribute("cx", p3.getBoundingClientRect().x + (p3.getBBox().width / 2 - line_box_length_x));
-                p2.setAttribute("cy", p3.getBoundingClientRect().y - line_box_length_y);
-                p2.setAttribute("r", p_r);
+                p2.setAttribute("cx", p3.getBoundingClientRect().x + (p3.getBBox().width / 2 - line_box_length));
+                p2.setAttribute("cy", p3.getBoundingClientRect().y - line_box_length);
+                p2.setAttribute("r", 10);
                 p2.setAttribute("class", "rel-line-point-end");
                 p2.setAttribute("style", "-webkit-tap-highlight-color: transparent; box-shadow: transparent 0px 0px 1px; cursor: grab; user-select: none;fill: #009143;");
                 svg.appendChild(p2);
@@ -69,10 +65,10 @@ define(function(require, exports, module) {
 
             var line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
             if (line1) {
-                line1.setAttribute("x1", p0.getBoundingClientRect().x + (p0.getBBox().width / 2 - line_box_length_x));
-                line1.setAttribute("y1", p0.getBoundingClientRect().y - line_box_length_y);
-                line1.setAttribute("x2", p1.getBoundingClientRect().x - line_box_length_x + p_r);
-                line1.setAttribute("y2", p1.getBoundingClientRect().y - line_box_length_y + p_r);
+                line1.setAttribute("x1", p1.getBoundingClientRect().x);
+                line1.setAttribute("y1", p1.getBoundingClientRect().y);
+                line1.setAttribute("x2", p1.getBoundingClientRect().x);
+                line1.setAttribute("y2", p1.getBoundingClientRect().y);
                 line1.setAttribute("class", "rel-line-line-start");
                 line1.setAttribute("style", "stroke: #009143;stroke-width: 2px;");
                 svg.appendChild(line1);
@@ -81,10 +77,10 @@ define(function(require, exports, module) {
 
             var line2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
             if (line2) {
-                line2.setAttribute("x1", p2.getBoundingClientRect().x - line_box_length_x + p_r);
-                line2.setAttribute("y1", p2.getBoundingClientRect().y - line_box_length_y + p_r);
-                line2.setAttribute("x2", p3.getBoundingClientRect().x + (p3.getBBox().width / 2 - line_box_length_x));
-                line2.setAttribute("y2", p3.getBoundingClientRect().y - line_box_length_y);
+                line2.setAttribute("x1", p2.getBoundingClientRect().x);
+                line2.setAttribute("y1", p2.getBoundingClientRect().y);
+                line2.setAttribute("x2", p2.getBoundingClientRect().x);
+                line2.setAttribute("y2", p2.getBoundingClientRect().y);
                 line2.setAttribute("class", "rel-line-line-end");
                 line2.setAttribute("style", "stroke: #009143;stroke-width: 2px;");
                 svg.appendChild(line2);
@@ -105,14 +101,13 @@ define(function(require, exports, module) {
 
                 var _line1 = document.getElementsByClassName("rel-line-line-start")[0];
                 var _line2 = document.getElementsByClassName("rel-line-line-end")[0];
-                _line1.x2.baseVal.value = _p1.x - line_box_length_x + p_r;
-                _line1.y2.baseVal.value = _p1.y - line_box_length_y + p_r;
-                _line2.x1.baseVal.value = _p2.x - line_box_length_x + p_r;
-                _line2.y1.baseVal.value = _p2.y - line_box_length_y + p_r;
+                _line1.x2.baseVal.value = _p1.x;
+                _line1.y2.baseVal.value = _p1.y;
+                _line2.x1.baseVal.value = _p2.x;
+                _line2.y1.baseVal.value = _p2.y;
 
-
-                var point_start = { x: (_p1.x - line_box_length_x + p_r) - xy.p1.x, y: (_p1.y - line_box_length_y + p_r) - xy.p1.y };
-                var point_end = { x: (_p2.x - line_box_length_x + p_r) - xy.p2.x, y: (_p2.y - line_box_length_y + p_r) - xy.p2.y };
+                var point_start = { x: _p1.x - xy.p1.x, y: _p1.y - xy.p1.y };
+                var point_end = { x: _p2.x - xy.p2.x, y: _p2.y - xy.p2.y };
 
                 //存入数据
                 lineData.ctrl = [{
@@ -132,32 +127,27 @@ define(function(require, exports, module) {
             }
             startDraggable = new PlainDraggable(p1, {
                 containment: field,
-                onMove: function() { update(); }
+                onMove: () => { update(); }
             });
             endDraggable = new PlainDraggable(p2, {
                 containment: field,
-                onMove: function() { update(); }
+                onMove: () => { update(); }
             });
-
             // update();
-
-            svg.addEventListener("mousedown", function() {
-                km.circle.remove();
-            })
 
         }
 
         function removeCircleFun() {
-            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-point-start"), function(item) {
+            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-point-start"), (item) => {
                 item.remove();
             });
-            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-point-end"), function(item) {
+            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-point-end"), (item) => {
                 item.remove();
             });
-            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-line-start"), function(item) {
+            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-line-start"), (item) => {
                 item.remove();
             });
-            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-line-end"), function(item) {
+            Array.prototype.forEach.call(document.getElementsByClassName("rel-line-line-end"), (item) => {
                 item.remove();
             });
             startDraggable = null;
@@ -165,15 +155,11 @@ define(function(require, exports, module) {
         }
 
         function updateCircleFun(line) {
-            km.circle.curline = line;
             createCircleFun(line);
             updateCirclePosition(line);
         }
 
         function updateCirclePosition(line) {
-            var svg = km.getPaper().getNode();
-            var line_box_length_x = svg.getBoundingClientRect().x;
-            var line_box_length_y = svg.getBoundingClientRect().y;
             var lineData = km._relLine[km._relLine_obj.indexOf(line)];
 
             var _p1 = document.getElementsByClassName("rel-line-point-start")[0];
@@ -187,10 +173,10 @@ define(function(require, exports, module) {
 
                 var _line1 = document.getElementsByClassName("rel-line-line-start")[0];
                 var _line2 = document.getElementsByClassName("rel-line-line-end")[0];
-                _line1.x2.baseVal.value = _p1.getBoundingClientRect().x - line_box_length_x + p_r;
-                _line1.y2.baseVal.value = _p1.getBoundingClientRect().y - line_box_length_y + p_r;
-                _line2.x1.baseVal.value = _p2.getBoundingClientRect().x - line_box_length_x + p_r;
-                _line2.y1.baseVal.value = _p2.getBoundingClientRect().y - line_box_length_y + p_r;
+                _line1.x2.baseVal.value = _p1.getBoundingClientRect().x;
+                _line1.y2.baseVal.value = _p1.getBoundingClientRect().y;
+                _line2.x1.baseVal.value = _p2.getBoundingClientRect().x;
+                _line2.y1.baseVal.value = _p2.getBoundingClientRect().y;
 
                 // line.setOptions({
                 //     startSocketGravity: [lineData.ctrl[0].x, lineData.ctrl[0].y],
@@ -225,7 +211,6 @@ define(function(require, exports, module) {
                     // newLine.start = LeaderLine.pointAnchor(startElement, { x: 0, y: 0 });
                     newLine.start = LeaderLine.pointAnchor(startElement, { x: startElement.getBBox().width / 2.0, y: 0 });
                     km._relLine = km._relLine || [];
-                    km._relLine_obj = km._relLine_obj || [];
                     var _relLine = {
                         "id": utils.guid(),
                         "startId": curNode.data.id || "",
@@ -266,7 +251,7 @@ define(function(require, exports, module) {
                     function relLineMouseMVFun() {
                         if (Date.now() - startTime > 50) {
                             startTime = parseInt(Date.now());
-                            newLine.end = LeaderLine.areaAnchor(km.getRenderContainer().container.node, { x: window.event.offsetX, y: window.event.offsetY, width: 0, height: 0 });
+                            newLine.end = LeaderLine.areaAnchor(km.getRenderContainer().container.node, { x: window.event.clientX, y: window.event.clientY, width: 0, height: 0 });
                             newLine.position();
                         }
                     }
@@ -295,66 +280,7 @@ define(function(require, exports, module) {
             }
         });
 
-        var InitRelLine = function() {
-                //挂载拖拽事件
-                km.circle = { create: updateCircleFun, remove: removeCircleFun };
-                //挂载渲染关系线事件
-                km._relLine_render = function(time, expand) {
-                    console.error = function() {};
-                    time = time || 0;
-                    setTimeout(function() {
-                        //更新关系线
-                        if (km._relLine_obj) {
-                            var curNode = km.getSelectedNode();
-                            var curNodeChild = curNode != undefined ? curNode.children : null;
-                            // 折叠/展开，需要隐藏/显示关系线
-                            var expand_relLine_fun = function(nodeChilds, itemLine, lineData) {
-                                //折叠/展开，需要隐藏/显示关系先
-                                if (nodeChilds) {
-                                    nodeChilds.forEach(function(childItem) {
-                                        var childEleId = childItem.data.id;
-                                        var childEle = childItem.rc.node;
-                                        if (lineData.startId == childEleId || lineData.endId == childEleId) {
-                                            //子节点的显示状态
-                                            // if (childEle.getAttribute("display") == "none") 
-                                            //两个父级都有可以被折叠
-                                            if (km.getNodeById(lineData.startId).rc.node.getAttribute("display") == "none" || km.getNodeById(lineData.endId).rc.node.getAttribute("display") == "none") {
-                                                itemLine.hide();
-                                                //更新拖拽渲染点
-                                                if (document.getElementsByClassName("rel-line-point-start").length > 0) {
-                                                    removeCircleFun(itemLine);
-                                                }
-                                            } else {
-                                                itemLine.show();
-                                            }
-                                        }
-                                        //递归
-                                        expand_relLine_fun(childItem.children, itemLine, lineData);
-                                    });
-                                }
-                            };
-                            //遍历关系线对象
-                            km._relLine_obj.forEach(function(itemLine, lineIndex) {
-                                try {
-                                    itemLine.position();
-                                } catch (error) {}
-
-                                if (expand) {
-                                    //折叠/展开触发
-                                    expand_relLine_fun(curNodeChild, itemLine, km._relLine[lineIndex]);
-                                }
-                                //更新拖拽渲染点
-                                if (document.getElementsByClassName("rel-line-point-start").length > 0) {
-                                    if (km.circle.curline === itemLine) {
-                                        updateCircleFun(itemLine);
-                                    }
-                                }
-                            });
-                        };
-                    }, time);
-                };
-            }
-            // 关系线的加载
+        // 关系线的加载
         var LeaderLineRenderer = kity.createClass('LeaderLineRenderer', {
             base: kity.Group,
 
@@ -365,16 +291,125 @@ define(function(require, exports, module) {
             },
             create: function() {
                 try {
-                    setTimeout(function() {
+                    setTimeout(() => {
                         /*rel line*/
                         var relLineArray = km._relLine || [];
                         km._relLine_obj = km._relLine_obj || [];
-                        //主动触发初始化
-                        InitRelLine();
-                        relLineArray.forEach(function(_lineItem, _lineIndex) {
-                            createRelLine(km.getNodeById(_lineItem.startId), km.getNodeById(_lineItem.endId));
-                        });
+                        //挂载渲染关系线事件
+                        km._relLine_render = (time, expand) => {
+                            console.error = () => {};
+                            time = time || 0;
+                            setTimeout(() => {
+                                //更新关系线
+                                if (km._relLine_obj) {
+                                    let curNode = km.getSelectedNode();
+                                    let curNodeChild = curNode != undefined ? curNode.children : null;
+                                    // 折叠/展开，需要隐藏/显示关系线
+                                    let expand_relLine_fun = function(nodeChilds, itemLine, lineData) {
+                                        //折叠/展开，需要隐藏/显示关系先
+                                        nodeChilds.forEach((childItem) => {
+                                            let childEleId = childItem.data.id;
+                                            let childEle = childItem.rc.node;
+                                            if (lineData.startId == childEleId || lineData.endId == childEleId) {
+                                                //子节点的显示状态
+                                                // if (childEle.getAttribute("display") == "none") 
+                                                //两个父级都有可以被折叠
+                                                if (km.getNodeById(lineData.startId).rc.node.getAttribute("display") == "none" || km.getNodeById(lineData.endId).rc.node.getAttribute("display") == "none") {
+                                                    itemLine.hide();
+                                                    //更新拖拽渲染点
+                                                    if (document.getElementsByClassName("rel-line-point-start").length > 0) {
+                                                        removeCircleFun(itemLine);
+                                                    }
+                                                } else {
+                                                    itemLine.show();
+                                                }
+                                            }
+                                            //递归
+                                            expand_relLine_fun(childItem.children, itemLine, lineData);
+                                        });
+                                    };
+                                    //遍历关系线对象
+                                    km._relLine_obj.forEach((itemLine, lineIndex) => {
+                                        try {
+                                            itemLine.position();
+                                        } catch (error) {}
 
+                                        if (expand) {
+                                            //折叠/展开触发
+                                            expand_relLine_fun(curNodeChild, itemLine, km._relLine[lineIndex]);
+                                        }
+                                        //更新拖拽渲染点
+                                        if (document.getElementsByClassName("rel-line-point-start").length > 0) {
+                                            updateCircleFun(itemLine);
+                                        }
+                                    });
+                                };
+                            }, time);
+                        };
+                        relLineArray.forEach((_lineItem, _lineIndex) => {
+                            // var startElementId = km.getNodeById(_lineItem.startId).rc.getId();
+                            // var endElementId = km.getNodeById(_lineItem.endId).rc.getId();
+                            // var startElement = document.getElementById(startElementId);
+                            // var endElement = document.getElementById(endElementId);
+                            // //获取指定节点的Element
+                            // // var startElement = document.getElementById(km.getSelectedNode().rc.getId());
+                            // //startPlug: 'disc', endPlug: 'disc'
+                            // var line = new LeaderLine(startElement, endElement, { color: '#009143', size: 1.5, dash: true, endPlugSize: 2 });
+
+                            createRelLine(km.getNodeById(_lineItem.startId), km.getNodeById(_lineItem.endId))
+
+
+                            // [startElementId, endElementId].forEach((elementId) => {
+                            //     //拖拽Node并移动
+                            //     var lineEventType = ['mousedown', 'mousemove'];
+                            //     lineEventType.forEach(function(item, index) {
+                            //         document.getElementById(elementId).addEventListener(item, (event) => {
+                            //             if (event.type == lineEventType[0]) {
+                            //                 line._drag_ = true;
+                            //             }
+                            //             if (line._drag_) {
+                            //                 line.position();
+                            //             }
+
+                            //         });
+                            //     });
+                            //     //停止拖拽
+                            //     document.getElementById(elementId).addEventListener("mouseup", (event) => {
+                            //         if (line._drag_) {
+                            //             line._drag_ = false;
+                            //         }
+                            //     });
+                            // })
+
+                        });
+                        /*
+                        //完整demo实现
+                        // var startElement = document.getElementById('minder_node3');
+                        // //获取指定节点的Element
+                        // // var startElement = document.getElementById(km.getSelectedNode().rc.getId());
+                        // //startPlug: 'disc', endPlug: 'disc'
+                        // var line = new LeaderLine(startElement, document.getElementById('minder_node4'), { color: '#009143', size: 1.5, dash: true, endPlugSize: 2 });
+
+                        // //拖拽Node并移动
+                        // var lineEventType = ['mousedown', 'mousemove'];
+                        // lineEventType.forEach(function(item, index) {
+                        //     document.getElementById("minder_node3").addEventListener(item, (event) => {
+                        //         if (event.type == lineEventType[0]) {
+                        //             line._drag_ = true;
+                        //         }
+                        //         if (line._drag_) {
+                        //             line.position();
+                        //         }
+
+                        //     });
+                        // });
+                        // //停止拖拽
+                        // document.getElementById("minder_node3").addEventListener("mouseup", (event) => {
+                        //     if (line._drag_) {
+                        //         line._drag_ = false;
+                        //     }
+                        // });
+                        */
                     }, 800);
 
                 } catch (error) {
@@ -382,7 +417,7 @@ define(function(require, exports, module) {
                 }
             }
         });
-        setTimeout(function() { InitRelLine(); }, 1000);
+
         return {
             'commands': {
                 'relLine': RelLineCommand
@@ -405,6 +440,5 @@ define(function(require, exports, module) {
                 })
             }
         };
-
     });
 });

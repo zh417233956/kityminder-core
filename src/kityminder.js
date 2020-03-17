@@ -104,8 +104,8 @@ define(function(require, exports, module) {
 
     require('./module/flag');
     require('./module/relLine');
-    require('./connect/leader-line.min.js')
-    require('./connect/plain-draggable.min.js')
+    require('./connect/leader-line');
+    require('./connect/plain-draggable');
 
     module.exports = kityminder;
 });

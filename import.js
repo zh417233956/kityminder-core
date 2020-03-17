@@ -88,8 +88,8 @@
         /* 扩展 */
         'src/module/flag.js',
         'src/module/relLine.js',
-        'src/connect/leader-line.min.js',
-        'src/connect/plain-draggable.min.js'
+        'src/connect/leader-line.js',
+        'src/connect/plain-draggable.js'
     ];
 
     if (typeof(module) === 'object' && module.exports) {
