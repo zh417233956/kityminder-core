@@ -73,6 +73,7 @@ define(function(require, exports, module) {
             json.template = this.getTemplate();
             json.theme = this.getTheme();
             json.version = Minder.version;
+            json.relLine = this._relLine;
 
             return JSON.parse(JSON.stringify(json));
         },
@@ -238,7 +239,7 @@ define(function(require, exports, module) {
             this.setTheme(json.theme || null);
             //TODO:zhhlog 实现relLine
             if (json.relLine) {
-                this._relLine = json.relLine
+                this._relLine = json.relLine;
             }
             this.refresh();
 

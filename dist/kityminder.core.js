@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.51 - 2020-03-17
+ * Kity Minder Core - v1.4.51 - 2020-04-01
  * https://github.com/fex-team/kityminder-core
  * GitHub: https://github.com/fex-team/kityminder-core.git 
  * Copyright (c) 2020 Baidu FEX; Licensed BSD-3-Clause
@@ -5086,6 +5086,7 @@ _p[14] = {
                 json.template = this.getTemplate();
                 json.theme = this.getTheme();
                 json.version = Minder.version;
+                json.relLine = this._relLine;
                 return JSON.parse(JSON.stringify(json));
             },
             /**
@@ -11533,6 +11534,26 @@ _p[61] = {
                         }
                     }, time);
                 };
+                km._relLine_refresh = function(time) {
+                    time = time || 0;
+                    setTimeout(function() {
+                        var relLineArray = km._relLine || [];
+                        var relLineObjArray = km._relLine_obj || [];
+                        relLineObjArray.forEach(function(_lineItem, _lineIndex) {
+                            _lineItem.remove();
+                        });
+                        km._relLine_obj = [];
+                        relLineArray.forEach(function(_lineItem, _lineIndex) {
+                            var new_line = createRelLine(km.getNodeById(_lineItem.startId), km.getNodeById(_lineItem.endId));
+                            if (_lineItem.ctrl) {
+                                new_line.setOptions({
+                                    startSocketGravity: [ _lineItem.ctrl[0].x, _lineItem.ctrl[0].y ],
+                                    endSocketGravity: [ _lineItem.ctrl[1].x, _lineItem.ctrl[1].y ]
+                                });
+                            }
+                        });
+                    }, time);
+                };
             };
             // 关系线的加载
             var LeaderLineRenderer = kity.createClass("LeaderLineRenderer", {
@@ -11550,7 +11571,13 @@ _p[61] = {
                             //主动触发初始化
                             InitRelLine();
                             relLineArray.forEach(function(_lineItem, _lineIndex) {
-                                createRelLine(km.getNodeById(_lineItem.startId), km.getNodeById(_lineItem.endId));
+                                var new_line = createRelLine(km.getNodeById(_lineItem.startId), km.getNodeById(_lineItem.endId));
+                                if (_lineItem.ctrl) {
+                                    new_line.setOptions({
+                                        startSocketGravity: [ _lineItem.ctrl[0].x, _lineItem.ctrl[0].y ],
+                                        endSocketGravity: [ _lineItem.ctrl[1].x, _lineItem.ctrl[1].y ]
+                                    });
+                                }
                             });
                         }, 800);
                     } catch (error) {
